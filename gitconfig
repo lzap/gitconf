@@ -1,0 +1,61 @@
+[user]
+	name = Lukas Zapletal
+	email = lzap+git@redhat.com
+[core]
+	excludesfile = ~/.gitconf/gitignore
+	hooksPath = ~/.gitconf/hooks
+[clone]
+	defaultRemoteName = upstream
+[pull]
+	ff = only
+[push]
+	default = current
+	autoSetupRemote = true
+	followTags = true
+[color]
+	diff = auto
+	status = auto
+	branch = auto
+[pack]
+	threads = 4
+[credential "https://github.com"]
+	username = lzap
+	helper = "!f() { test \"$1\" = get && echo \"password=$(cat $HOME/.gitconf/github.secret)\"; }; f"
+[apply]
+	whitespace = strip
+[alias]
+	cam = commit -am
+	ca = commit -a
+	co = checkout
+	st = status
+	br = branch -v
+	ls = log --pretty=format:"%C(yellow)%h\\ %Creset%s%Cblue\\ (%an\\ %cr)"
+	fall = fetch --all
+	unstage = reset HEAD --
+	find = !sh -c 'git ls-tree -r --name-only HEAD | grep --color $1' -
+	fshow = ! sh -c 'echo $(git diff --name-only HEAD~ HEAD)' -
+	vim = ! sh -c 'vim `git fshow $1`' -
+[merge]
+	tool = vim3
+	keepBackup = false
+	prompt = false
+[mergetool "vim"]
+	cmd = vimdiff "$LOCAL" "$MERGED" "$REMOTE"
+[mergetool "vim3"]
+	cmd = /usr/bin/vim -f -d \"$LOCAL\" \"$BASE\" \"$REMOTE\" \"$MERGED\"
+[mergetool "fugitive"]
+	cmd = vim -f -c \"Gdiff\" \"$MERGED\"
+	trustExitCode = false
+[mergetool "vscode"]
+	cmd = code --wait $MERGED
+[diff]
+	tool = vim
+[diff "vim"]
+	cmd = vimdiff "$LOCAL" "$REMOTE"
+[difftool "vscode"]
+	cmd = code --wait --diff $LOCAL $REMOTE
+[filter "lfs"]
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+	clean = git-lfs clean -- %f
