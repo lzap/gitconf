@@ -36,13 +36,17 @@
 	fshow = ! sh -c 'echo $(git diff --name-only HEAD~ HEAD)' -
 	vim = ! sh -c 'vim `git fshow $1`' -
 [merge]
-	tool = vim3
+	tool = vimtabs
 	keepBackup = false
 	prompt = false
+[mergetool "vimtabs"]
+	cmd = vim -f -c \"tabe $BASE\" -c \"diffsplit $LOCAL\" -c \"tabe $BASE\" -c \"diffsplit $REMOTE\" -c tabfirst -c \"/=======\" -c \"normal gg\" \"$MERGED\"
 [mergetool "vim"]
 	cmd = vimdiff "$LOCAL" "$MERGED" "$REMOTE"
 [mergetool "vim3"]
 	cmd = /usr/bin/vim -f -d \"$LOCAL\" \"$BASE\" \"$REMOTE\" \"$MERGED\"
+[mergetool "meld3"]
+	cmd = meld $LOCAL $BASE $REMOTE -o $MERGED --diff $BASE $LOCAL --diff $BASE $REMOTE --auto-merge
 [mergetool "fugitive"]
 	cmd = vim -f -c \"Gdiff\" \"$MERGED\"
 	trustExitCode = false
