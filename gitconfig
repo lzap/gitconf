@@ -4,6 +4,8 @@
 [core]
 	excludesfile = ~/.gitconf/gitignore
 	hooksPath = ~/.gitconf/hooks
+[init]
+	defaultBranch = main
 [clone]
 	defaultRemoteName = upstream
 [pull]
